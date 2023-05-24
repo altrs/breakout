@@ -5,7 +5,6 @@ let timer2 = 0; //for facial scan loading
 let timer3 = 0; //for final popup
 let timer4 = 0; //for end
 
-
 //visual assets
 let backgroundImg;
 let popup1; //personality quiz
@@ -43,6 +42,13 @@ let numberCalled = false;
 let scanEnable = false;
 let drawFace = false;
 let cb1, cb2, cb3, cb4;
+let dialButton;
+
+//new
+let x1 = 630;
+let y1 = 350;
+let dialCount = 0;
+let teleDistance = 0;
 
 //break mirage variables
 var mx;
@@ -59,14 +65,15 @@ function preload() {
   poster1 = createImg("results.png", "poster");
   popup2 = createImg("popupfinal.png", "final popup");
   yesButton = createImg("yesbutton.png", "yes button");
-  screenCrack = createImg("crack.png", "screen cracks");
-}
+  screenCrack = createImg("crack.png", "screen cracks");}
 
 function setup() {
-  createCanvas(800, 600);
+  let canvas = createCanvas(800, 600);
   capture = createCapture(VIDEO);
   capture.elt.setAttribute('playsinline', '');
   capture.size(width-140, height);
+
+  //hiding
   capture.hide();
   backgroundImg.hide();
   popup1.hide();
@@ -74,9 +81,10 @@ function setup() {
   poster1.hide();
   popup2.hide();
   screenCrack.hide();
-  yesButton.hide(); //IMAGE OF BUTTON
+  yesButton.hide(); //IMAGE OF YES BUTTON
   pixelDensity(1);
   
+  //ACTUAL BUTTON
   ybutton = createButton('');
   ybutton.position(460, 410);
   ybutton.size(120, 40);
@@ -90,8 +98,32 @@ function setup() {
   createQuizElements();
   
   //DIAL NUMBERS
-  createDialNums();
-  
+  // var dialButton = document.createElement("button");
+  // dialButton.innerHTML = "Do Something";
+
+  // var body = document.getElementsByTagName("body")[0];
+  // body.appendChild(dialButton);
+  // dialButton.style.position = "absolute";
+  // dialButton.style.width = "100px"
+  // dialButton.style.height = "100px"
+  // dialButton.style.bottom = "300px"; // Change the top position
+  // dialButton.style.right = "140px"; 
+
+  // dialButton.addEventListener ("click", function() {
+  //   dialCount++;
+  //   checkDialNums();
+  //   console.log("DIALED");
+  // });
+
+  dialButton = createButton("Do Something");
+  let canvasX = canvas.position().x;
+  let canvasY = canvas.position().y;
+  let buttonX = canvasX + 630; // Adjust the x-coordinate as needed
+  let buttonY = canvasY + 370; // Adjust the y-coordinate as needed
+  dialButton.position(buttonX, buttonY);
+  dialButton.size(100,100);
+  dialButton.mousePressed(checkDialNums);
+
   //FACIAL TRACKER
   tracker = new clm.tracker(); // create a new clmtrackr object
   tracker.init(); // initialize the object
@@ -116,7 +148,7 @@ function draw() {
   image(backgroundImg, 0, 0, 800, 600);
   image(hammer, hammerX, hammerY, 48 ,  102);
 
-  console.log(mouseX + ", " + mouseY);
+  //console.log(mouseX + ", " + mouseY);
   
    switch (scene) {
     case 1:
@@ -127,6 +159,8 @@ function draw() {
       break;
     case 3:
       breakMirage();
+      break;
+    case 4:
       break;
    }
   
@@ -175,8 +209,7 @@ function personalityQuiz() {
     colorVal = colorSlider.value();
     
   }
-  
-}
+  }
 
 function enterName(){name = this.value();}
 
@@ -229,8 +262,7 @@ function createQuizElements() {
   submitButton.style('background-color', col);
   submitButton.style('border-width', 0);
   submitButton.mousePressed(hidePopup1);
-  submitButton.hide();
-}
+  submitButton.hide();}
 
 function hidePopup1(){
   popup1.hide();
@@ -247,18 +279,18 @@ function hidePopup1(){
   personality2 = "DOB: " + bmonth + "/" + bday + "/" + byear;
   personality3 = "STRENGTH: " + radio.value();
 
-  scene++;
-}
+  scene++;}
 
 function facialScan() {
   
   blendMode(BLEND);
   scanEnable = true;
+
+  if(dialCount >= 4){
+    numberCalled = true;
+  }
   
   if(numberCalled){
-  
-    //DRAW FACE LINES
-    if(drawFace){
       noFill();
       strokeWeight(5);
       push();
@@ -273,43 +305,51 @@ function facialScan() {
       pop();
       strokeWeight(1);
       image(backgroundImg, 0, 0, 800, 600);
-    } 
-    
-    //add loading screen before changing image
-    if (frameCount % 60 == 0) {timer2++;}
-    if(timer2 >= 7){
-      drawFace = false; //removes face lines
-      rectShow = false;
-      console.log("WHAT WHAT WHAT");
-      image(poster1, 0, 35);
-      //popup new poster image
+
+
+      if (frameCount % 60 == 0) {timer2++;}
+      if(timer2 >= 7){
+        drawFace = false; //removes face lines
+        rectShow = false;
+        scanEnable = false;
+        numberCalled = false;
+        console.log("WHAT WHAT WHAT");
+        image(poster1, 0, 35);
+        scene = 4;
+      }
+
     }
-    
-  }
-  
 }
+  
 
 function createDialNums(){
-  cb1 = createCheckbox('', false); //4
-  cb1.changed(checkDialNums);
-  cb1.position(660, 381);
+  // cb1 = createCheckbox('', false); //4
+  // cb1.changed(checkDialNums);
+  // cb1.position(660, 381);
   
-  cb2 = createCheckbox('', false); //5
-  cb2.changed(checkDialNums);
-  cb2.position(672, 405);
+  // cb2 = createCheckbox('', false); //5
+  // cb2.changed(checkDialNums);
+  // cb2.position(672, 405);
   
-  cb3 = createCheckbox('', false); //7
-  cb3.changed(checkDialNums);
-  cb3.position(678, 388);
+  // cb3 = createCheckbox('', false); //7
+  // cb3.changed(checkDialNums);
+  // cb3.position(678, 388);
   
-  cb4 = createCheckbox('', false); //8
-  cb4.changed(checkDialNums);
-  cb4.position(684, 371);
+  // cb4 = createCheckbox('', false); //8
+  // cb4.changed(checkDialNums);
+  // cb4.position(684, 371);
+
+
 }
 
 function checkDialNums(){
-  if(scanEnable && cb1.checked() && cb2.checked() && cb3.checked() && cb4.checked()){
-    numberCalled = true;   
+  // if(scanEnable && cb1.checked() && cb2.checked() && cb3.checked() && cb4.checked()){
+  //   numberCalled = true;   
+  //   drawFace = true;
+  // }
+  dialCount++;
+  if(dialCount >= 4){
+    numberCalled = true;
     drawFace = true;
   }
   
@@ -404,8 +444,8 @@ function breakMirage() {
     image(yesButton, 455, 400, 125, 60);
     if (frameCount % 60 == 0) {timer4++;}
       if(timer4 >= 2){
+        fill(0,0,0);
         rect(0,0,800,600);
-        fill(color(0, 0, 0));
         blendMode(BLEND);
       }
   }
