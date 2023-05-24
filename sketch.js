@@ -73,6 +73,9 @@ function setup() {
   capture.elt.setAttribute('playsinline', '');
   capture.size(width-140, height);
 
+  let canvasX = canvas.position().x;
+  let canvasY = canvas.position().y;
+
   //hiding
   capture.hide();
   backgroundImg.hide();
@@ -86,7 +89,9 @@ function setup() {
   
   //ACTUAL BUTTON
   ybutton = createButton('');
-  ybutton.position(460, 410);
+  let ybuttonX = canvasX + 450; // Adjust the x-coordinate as needed
+  let ybuttonY = canvasY + 410; // Adjust the y-coordinate as needed
+  ybutton.position(ybuttonX, ybuttonY);
   ybutton.size(120, 40);
   let col = color(200,255,255, 0);
   ybutton.style('background-color', col);
@@ -115,12 +120,12 @@ function setup() {
   //   console.log("DIALED");
   // });
 
-  dialButton = createButton("Do Something");
-  let canvasX = canvas.position().x;
-  let canvasY = canvas.position().y;
+  dialButton = createButton("");
   let buttonX = canvasX + 630; // Adjust the x-coordinate as needed
   let buttonY = canvasY + 370; // Adjust the y-coordinate as needed
   dialButton.position(buttonX, buttonY);
+  dialButton.style('background-color', col);
+  dialButton.style('border-width', 0);
   dialButton.size(100,100);
   dialButton.mousePressed(checkDialNums);
 
@@ -443,7 +448,7 @@ function breakMirage() {
   if(showYButton){
     image(yesButton, 455, 400, 125, 60);
     if (frameCount % 60 == 0) {timer4++;}
-      if(timer4 >= 2){
+      if(timer4 >= 1){
         fill(0,0,0);
         rect(0,0,800,600);
         blendMode(BLEND);
