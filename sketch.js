@@ -166,9 +166,10 @@ function draw() {
       breakMirage();
       break;
     case 4:
+      image(poster1, 0, 35);
       break;
    }
-  
+
   if(hammerX > 365 && hammerX < 525 && hammerY > 90 && hammerY < 260){
     console.log("HIT"); 
     breakMirage();
