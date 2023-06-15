@@ -18,14 +18,16 @@
       }
 
       .popup-content {
-        width: 200px;
-        padding: 5px;
+        width: 270px;
+        padding: 10px;
         position: absolute;
         top: 1%;
         left: 1%;
         border: 1px solid black;
         text-align: center;
         background-color: white;
+        font-family: arial;
+        font-size: 12px;
       }
 
       .b {
@@ -43,7 +45,7 @@
           top: 0;
           left: 0;
           width: 100%;
-          height: 100%;
+          height: 200px;
           z-index: 15;
           color: black;
         }
@@ -57,12 +59,14 @@
           border: 1px solid black;
           text-align: center;
           background-color: white;
+          font-size: 10px;
         }
 
         .b {
           display: block;
           margin-left: 40%;
           color: black;
+          font-size: 10px;
           background-color: #FFFF;
           border: 1px solid black;
         }
@@ -75,7 +79,7 @@
     <main>
       <div id="popup" class="popup">
         <div class="popup-content">
-          <p>Breakout: Experimental Camera 'Escape Room'</p>
+          <p><b>Experimental Camera 'Escape Room'.</b><br><br><i>*If you are viewing this page from Instagram, camera functionality may not work. For best experience, open this website directly in Google*</i></p>
           <button class="b" onclick="closePopup()">Close</button>
           <br>
         </div>
